@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { Route, Link, useParams, useRouteMatch } from 'react-router-dom';
+import { Routes, Route, Link, useParams, } from 'react-router-dom';
 import Comments from '../components/comments/Comments';
 import HighlightedQuote from '../components/quotes/HighlightedQuote';
 import NoQuotesFound from '../components/quotes/NoQuotesFound';
@@ -8,11 +8,8 @@ import useHttp from '../hooks/useHttp';
 import { getSingleQuote } from '../lib/api';
 
 const SingleQuote = () => {
-    const routeMatch = useRouteMatch();
     const params = useParams();
     const { sendRequest, status, data, error } = useHttp(getSingleQuote);
-    const path = routeMatch.path + '/comments';
-    const url = routeMatch.url + '/comments';
 
     useEffect(() => {
         sendRequest(params.quoteId);
@@ -44,14 +41,12 @@ const SingleQuote = () => {
         quote = (
             <Fragment>
                 <HighlightedQuote text={data.text} author={data.author} />
-                <Route path={routeMatch.path} exact>
-                    <div className="centered">
-                        <Link className='btn--flat' to={url}>Add Comments</Link>
-                    </div>
-                </Route>
-                <Route path={path}>
-                    <Comments id={params.quoteId} />
-                </Route>
+                <div className="centered">
+                    <Link className='btn--flat' to='comments'>Add Comments</Link>
+                </div>
+                <Routes>
+                    <Route path='comments' element={<Comments id={params.quoteId} />} />
+                </Routes>
             </Fragment>
         )
     }

@@ -7,7 +7,7 @@ import classes from './NewCommentForm.module.css';
 
 const NewCommentForm = (props) => {
     const commentTextRef = useRef();
-    const { sendRequest, status, data, error } = useHttp(addComment);
+    const { sendRequest, status, error } = useHttp(addComment);
 
     const { onAddHandler, id } = props;
     useEffect(() => {
@@ -22,12 +22,7 @@ const NewCommentForm = (props) => {
         const enteredText = commentTextRef.current.value;
 
         if (enteredText.trim() === '') return;
-
-
-
-        // optional: Could validate here
-
-        // send comment to server
+        // Could validate here
         sendRequest({ commentData: { text: enteredText }, quoteId: id })
     };
 

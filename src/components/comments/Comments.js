@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useParams } from 'react-router-dom';
 
 import useHttp from '../../hooks/useHttp';
 import { getAllComments } from '../../lib/api';
@@ -9,7 +9,7 @@ import classes from './Comments.module.css';
 import CommentsList from './CommentsList';
 import NewCommentForm from './NewCommentForm';
 
-const Comments = (props) => {
+const Comments = () => {
     const [isAddingComment, setIsAddingComment] = useState(false);
     const params = useParams()
     const { sendRequest, data, status } = useHttp(getAllComments, true)

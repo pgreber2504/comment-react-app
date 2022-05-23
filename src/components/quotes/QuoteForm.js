@@ -1,21 +1,12 @@
-import { Fragment, useRef, useState } from 'react';
-import { Prompt } from 'react-router-dom'
+import { Fragment, useRef } from 'react';
 
 import Card from '../UI/Card';
 import LoadingSpinner from '../UI/LoadSpinner';
 import classes from './QuoteForm.module.css';
 
 const QuoteForm = (props) => {
-    const [isEntering, setIsEntering] = useState(false);
     const authorInputRef = useRef();
     const textInputRef = useRef();
-
-    const focusingForm = () => {
-        setIsEntering(true)
-    }
-    const finishedFocusing = () => {
-        setIsEntering(false);
-    }
 
     function submitFormHandler(event) {
         event.preventDefault();
@@ -23,22 +14,20 @@ const QuoteForm = (props) => {
         const enteredAuthor = authorInputRef.current.value;
         const enteredText = textInputRef.current.value;
 
-        // optional: Could validate here
+        // Could validate here
 
         props.onAddQuote({ author: enteredAuthor, text: enteredText });
     }
 
     return (
         <Fragment>
-            <Prompt when={isEntering} message="Are you sure?" />
             <Card>
-                <form onFocus={focusingForm} className={classes.form} onSubmit={submitFormHandler}>
+                <form className={classes.form} onSubmit={submitFormHandler}>
                     {props.isLoading && (
                         <div className={classes.loading}>
                             <LoadingSpinner />
                         </div>
                     )}
-
                     <div className={classes.control}>
                         <label htmlFor='author'>Author</label>
                         <input type='text' id='author' ref={authorInputRef} />
@@ -48,7 +37,7 @@ const QuoteForm = (props) => {
                         <textarea id='text' rows='5' ref={textInputRef}></textarea>
                     </div>
                     <div className={classes.actions}>
-                        <button onClick={finishedFocusing} className='btn'>Add Quote</button>
+                        <button className='btn'>Add Quote</button>
                     </div>
                 </form>
             </Card>
